@@ -1,0 +1,204 @@
+Nume: Ureche
+Prenume: Andreea-Maria
+Grupa: 312CC
+
+============ Metode Numerice ================
+=============    Tema 2     =================
+
+Voi explica pe scurt functionalitatea fiecarei functii precum
+si pasii aplicati.
+
+Task1
+-----------------------------------------------------
+function new_X = task1 (photo, k) -> aceasta functie
+realizeaza compresia unei imagini folosind descompunerea
+redusa a valorilor singulare si intoarce matricea Ak.
+Mai intai se atribuie variabilelor "m" și "n" dimensiunile matricei "photo". 
+Apoi se initializează matricea "new_X" cu dimensiunile și tipul de date ale 
+matricei "photo" si se initializeaza toate elementele cu zero si
+se converteste matricea "photo" la tipul de date "double".
+Se aplica descompunerea în valori singulare (SVD) asupra matricei "photo" si 
+se descompune matricea "photo" în trei matrici: U, S si V. 
+Se selectează primele k coloane din matricea U si se atribuie variabilei U_k. 
+Se selectează primele k randuri si coloane din matricea S si 
+se salveaza in variabila S_k.
+Se selectează primele k coloane din matricea V si se stocheaza in V_k. 
+Se calculează aproximarea matricei inițiale "photo" folosind matricile U_k, S_k si V_k 
+inmultindu-le si se salveaza rezultatul in matricea "new_X".
+La final , se converteste matricea "new_X" la tipul de date "uint8".
+
+Task 2
+-------------------------------------------------------------------
+function new_X = task2 (photo, pcs) -> aceasta functie calculeaza 
+componentele principale folosind algoritmul SVD.
+
+Mai intai se atribuie variabilelor m și n dimensiunile matricei "photo"
+(nr de randuri si coloane).
+Se initializează matricea new_X cu dimensiunile si tipul de
+date ale matricei "photo" si toate elementele matricei sunt setate la zero.
+Se convertește matricea photo la tipul de date "double". 
+Apoi se calculează media fiecarui rand al matricei "photo"
+si o atribuie variabilei "row_means".
+Se normalizează matricea initiala "photo" prin scaderea mediei fiecarui
+rand din matrice.
+Se construiește matricea Z prin transpunerea matricei "photo". 
+Apoi se aplica descompunerea in valori singulare (SVD) asupra matricei "Z". 
+SVD descompune matricea Z în trei matrici: U, S și V. 
+Se construiește matricea "W" cu primele "pcs" coloane ale matricei V.
+Se calculează matricea "Y" prin inmultirea transpusa a matricei "W" cu matricea "photo". 
+Se aproximează matricea initială "photo" prin inmultirea matricelor "W" și "Y" 
+si adaugarea mediei fiecarui rand. Rezultatul este stocat in matricea "new_X".
+La final se converteste matricea "new_X" la tipul de date "uint8".
+
+Task 3
+-------------------------------------------------------------------------
+function new_X = task3 (photo, pcs) -> aceasta functie calculeaza componentele
+principale bazate pe matricea de covarianta si intoarce matricea Ak.
+
+Mai intai se atribuie variabilelor "m" și "n" dimensiunile matricei "photo"
+si se inițializează matricea "new_X" cu dimensiunile și tipul de date
+ale matricei "photo".
+Inițial, toate elementele matricei sunt setate la zero.
+Se convertește matricea "photo" la tipul de date "double". 
+Se calculează media fiecărui rând al matricei "photo" și se atribuie 
+variabilei "row_means".
+Se normalizează matricea inițială "photo" prin scăderea mediei fiecărui
+rând din matrice.
+Apoi se calculează matricea de covarianță "Z" utilizând formula din enunt.
+Se calculează vectorii și valorile proprii ale matricei de covarianță "Z" .
+Matricea "V" contine vectorii proprii așezati pe coloane,
+iar matricea "S" contine valorile proprii pe diagonala sa.
+Se sortează valorile proprii în ordine descrescătoare și se obțin
+indicii corespunzători.
+Se selectează primele "pcs" coloane din matricea "V" și le atribuie variabilei "W".
+Se calculează matricea "Y" prin înmulțirea transpusă a matricei "W" cu matricea "photo". 
+Matricea "Y" reprezintă proiecția datelor inițiale "photo" în spațiul 
+componentelor principale.
+Se aproximează matricea inițială "photo" prin înmulțirea matricelor "W" și "Y", 
+adăugând apoi media fiecărui rând. Rezultatul aproximării este stocat în matricea "new_X".
+La final se convertește matricea "new_X" înapoi la tipul de date "uint8".
+
+Task 4
+------------------------------------------------------------------------
+
+function [train_mat, train_val] = prepare_data (name, no_train_images)-> 
+functia are rolul de a importa datele necesare din fisierul 'mnist.mat'
+
+Se inițializează variabila n cu valoarea 784.
+Se inițializează matricea train_mat cu dimensiunea no_train_images x n, 
+având toate elementele inițializate cu zero.
+Această matrice va fi utilizată pentru a stoca imaginile de antrenament.
+Se inițializează vectorul train_val cu dimensiunea 1 x no_train_images, 
+având toate elementele inițializate cu zero.
+Acest vector va fi utilizat pentru a stoca etichetele corespunzătoare 
+fiecărei imagini de antrenament.
+Se încarcă datele din tabelul specificat de argumentul name utilizând 
+funcția load. Presupun că tabelul conține informații despre imaginile
+de antrenament și etichetele corespunzătoare.
+Se salvează primele no_train_images linii din tabelul de imagini 
+de antrenament în matricea train_mat. 
+Aceasta se realizează prin copierea valorilor din matricea
+data.trainX în train_mat.
+Se salvează primele no_train_images valori ale vectorului de
+etichete din tabelul de date în vectorul train_val. 
+La finalul funcției, matricea train_mat conține imaginile de antrenament,
+iar vectorul train_val conține etichetele corespunzătoare acestor imagini.
+
+
+function im = visualise_image (train_mat, number) -> cu aceasta functie
+se poate vizualiza imaginea cu numarul 'number' din setul de date
+
+Se inițializează matricea im cu dimensiunea 28x28, având toate elementele 
+inițializate cu zero. 
+Această matrice va reprezenta imaginea finală care va fi vizualizată.
+Se citește linia cu numărul number din matricea de antrenament train_mat
+și se stochează în variabila image_row. 
+Această linie reprezintă pixelii corespunzători imaginii pe care 
+dorim să o vizualizăm.
+Se transformă linia citită într-o matrice 28x28 utilizând funcția reshape.
+Apoi, matricea este transpusă .
+Matricea rezultată este convertită în formatul uint8 pentru a fi considerată
+o imagine validă. 
+Se afișează imaginea utilizând funcția imshow.
+
+
+
+function [train, miu, Y, Vk] = magic_with_pca (train_mat, pcs) ->
+aplica PCA asupra matricii de antrenament,implementand pasii 2-9 din 
+algoritmul de predictie.
+
+Se obțin dimensiunile matricei de antrenament m si n.
+Se inițializează matricele train, miu, Y și Vk cu dimensiunile corespunzătoare.
+Matricea train_mat este convertită la tipul de date double .
+Se calculează media fiecărei coloane a matricei train_mat iar
+rezultatul este stocat în variabila miu.
+Media este scăzută din matricea train_mat .
+Se calculează matricea de covarianță a datelor centrate iar
+rezultatul este stocat în variabila cov_matrix.
+Se calculează vectorii și valorile proprii ale matricei de covarianță 
+utilizând funcția eig. 
+Vectorii proprii sunt stocați în variabila eig_vec, 
+iar valorile proprii sunt stocate în variabila eig_val.
+Valorile proprii și vectorii proprii sunt ordonați descrescător. 
+Acest lucru se realizează prin sortarea valorilor proprii
+în ordine descrescătoare și reordonarea corespunzătoare a vectorilor
+proprii. Indicii de sortare sunt obținuți prin apelul funcției sort 
+asupra diagonalei matricei eig_val. 
+Vectorii proprii sunt reordonați în funcție de indici.
+Se păstrează doar primele pcs coloane din matricea Vk, care reprezintă 
+vectorii proprii corespunzători celor mai mari pcs valori proprii.
+Se calculează matricea Y prin înmulțirea matricei de antrenament centrate 
+cu matricea Vk.
+Se calculează matricea train care reprezintă aproximarea matricei 
+de antrenament inițiale folosind matricea Vk. 
+
+
+function sir = prepare_photo (im) -> primeste imaginea de test pe care o 
+modifica si o transforma intr-un sir pentru a se putea face mai usor predictia. 
+Imaginile de antrenament au fundalul negru si cifra alba, pe cand cele de 
+test au fundalul alb si cifra neagra, asa ca trebuie sa se inverseze culorile.
+
+Se inițializează vectorul sir cu dimensiunea 1 x 784, având toate elementele
+inițializate cu zero. Acest vector va reprezenta rezultatul final al funcției.
+Pixelii imaginii im sunt inversați prin scăderea valorii fiecărui pixel de la 255.
+Imaginea im este transpusă utilizând operatorul de transpunere .
+Imaginea transpusă este transformată într-un vector linie utilizând funcția reshape.
+Rezultatul este stocat în vectorul sir. 
+
+ 
+function prediction = KNN (labels, Y, test, k) -> aplica algoritmul de k-nearest neighbours.
+
+Se initializează variabila prediction cu valoarea -1. 
+Această variabilă va fi actualizată mai târziu cu predicția rezultată 
+în urma clasificării.
+Se obțin dimensiunile matricei Y utilizând funcția size. 
+Variabilele m și n reprezintă numărul de rânduri și coloane ale matricei.
+Se inițializează vectorul distance cu dimensiunea m x 1 și toate elementele 
+inițializate cu zero. 
+Pentru fiecare rând din matricea Y, se calculează distanța euclidiană
+față de vectorul de test. 
+Rezultatele sunt stocate în vectorul distance.
+Distantele calculate sunt ordonate crescător utilizând funcția sort. 
+Indicii de sortare rezultanți sunt stocați în variabila indices.
+Se selectează primele k etichete corespunzătoare celor mai mici distanțe. 
+Acest lucru se realizează prin selectarea primelor k elemente din vectorul
+indices și utilizarea acestor indici pentru a obține valorile corespunzătoare
+din vectorul labels. Acestea sunt stocate în vectorul k_nearest_labels.
+Predicția finală este calculată ca mediană a valorilor din vectorul k_nearest_labels. 
+Acest lucru se realizează utilizând funcția mode, care returnează valoarea care apare
+cel mai des în vector. Rezultatul este stocat în variabila prediction.
+
+ 
+function prediction = classifyImage (im, train_mat, train_val, pcs)->
+pune cap la cap functiile anterioare pentru a returna predictia pe care o face.
+
+Se initializează variabila prediction cu valoarea -1.
+Această variabilă va fi actualizată mai târziu cu predicția rezultată
+în urma clasificării.
+Imaginea im este convertită la tipul double .
+Este aplicată funcția magic_with_pca asupra setului de date de antrenament 
+train_mat utilizând numărul de componente principale pcs. 
+Se scade media fiecărei coloane din matricea imaginii im utilizând media
+coloanelor din train_mat.
+Se realizează schimbarea bazei imaginii im prin înmulțirea acesteia cu matricea Vk.
+Se calculează predicția utilizând funcția KNN implementată anterior avand k=5.
